@@ -17,14 +17,17 @@ class Comment
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column]
-    private ?int $id_article = null;
-
-    #[ORM\Column]
-    private ?int $id_user = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $id_user = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Article $id_article = null;
 
     public function getId(): ?int
     {
@@ -43,29 +46,6 @@ class Comment
         return $this;
     }
 
-    public function getIdArticle(): ?int
-    {
-        return $this->id_article;
-    }
-
-    public function setIdArticle(int $id_article): self
-    {
-        $this->id_article = $id_article;
-
-        return $this;
-    }
-
-    public function getIdUser(): ?int
-    {
-        return $this->id_user;
-    }
-
-    public function setIdUser(int $id_user): self
-    {
-        $this->id_user = $id_user;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -75,6 +55,30 @@ class Comment
     public function setCreatedAt(\DateTimeImmutable $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getIdUser(): ?User
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(?User $id_user): self
+    {
+        $this->id_user = $id_user;
+
+        return $this;
+    }
+
+    public function getIdArticle(): ?Article
+    {
+        return $this->id_article;
+    }
+
+    public function setIdArticle(?Article $id_article): self
+    {
+        $this->id_article = $id_article;
 
         return $this;
     }
