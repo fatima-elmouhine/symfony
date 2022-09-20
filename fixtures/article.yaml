@@ -1,0 +1,7 @@
+App\Entity\Article:
+  article{1..50}:
+    title: '<title()>'
+    content: '<sentence()>'
+    image: '<imageUrl()>'
+    id_user_id: @user
+    created_at: '<datetime()>'

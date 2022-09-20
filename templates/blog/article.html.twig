@@ -1,9 +1,25 @@
+
 {% extends 'base.html.twig' %}
-
-{% block title %} Blog - Connexion {% endblock %}
-
 {% block body %}
+<article>
+    <h2>{{article.title}}</h2>
+    <div class="metadata">Ecrit le {{article.createdAt |date('d/m/Y')}} à {{article.createdAt | date('H:i')}} par {{ article.createdAt | date('H:i') }} par  {{ article.getIdUser.getLogin}} </div>
+    <div class="content">
+        <img src="{{article.image}}" alt="">
+        {{article.content |raw}}
+    </div>
+</article>
 
-toto articles
+<section class="">
+    <h3>Commentaires</h3>
+    {% for comment in comments %}
+    <div class="comment">
+        <div class="metadata">Ecrit le {{comment.createdAt |date('d/m/Y')}} à {{comment.createdAt | date('H:i')}} par {{ comment.getIdUser.getLogin}} </div>
+        <div class="content">
+            {{comment.content |raw}}
+        </div>
+    </div>
+    {% endfor %}
+</section>
 
 {% endblock %}

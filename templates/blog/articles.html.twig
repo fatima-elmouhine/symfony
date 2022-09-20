@@ -4,6 +4,18 @@
 
 {% block body %}
 
-toto articles
-
+<section class="articles">
+    {% for article in articles %}
+        <article>
+            <h2>{{article.title}}</h2>
+            <div class="metadata">Publié le {{ article.createdAt | date('d/m/Y') }} à {{article.createdAt | date('H:i') }} par  {{ article.getIdUser.getLogin}} </div>
+            <div class="content">
+                <img src="{{article.image}}" alt="">
+                {{article.content |raw}}
+                <a href="{{path('article',{'id': article.id})}}" class="btn btn-primary">Lire la suite</a>
+            </div>
+        </article>
+     
+        {% endfor %}
+</section>
 {% endblock %}

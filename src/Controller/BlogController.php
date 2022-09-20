@@ -2,19 +2,23 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Doctrine\Common\Persistence\ObjectManager ;
 use App\Entity\Article;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentRepository;
+use Symfony\Component\HttpFoundation\Request;
+use Doctrine\Common\Persistence\ObjectManager ;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BlogController extends AbstractController
 {
 
     #[Route('/blog', name: 'blog')]
     public function index(ArticleRepository $repo)
+    
     {
+        // dump(app);
+        // die;
         // $articles = $repo->findAll();
 
         return $this->render('blog/index.html.twig', [
@@ -23,51 +27,29 @@ class BlogController extends AbstractController
         ]);
     }
 
-    #[Route('/blog/signup', name: 'signup')]
-    public function signup(ArticleRepository $repo)
-    {
-        return $this->render('blog/signup.html.twig', [
-            'controller_name' => 'BlogController',
-        ]);
-    }
-
-    #[Route('/blog/register', name: 'register')]
-    public function register(ArticleRepository $repo)
-    {
-
-        return $this->render('blog/register.html.twig', [
-            'controller_name' => 'BlogController',
-        ]);
-    }
-
-    #[Route('/blog/account', name: 'account')]
-    public function account(ArticleRepository $repo)
-    {
-        return $this->render('blog/account.html.twig', [
-            'controller_name' => 'BlogController',
-        ]);
-    }
 
     #[Route('/blog/articles', name: 'articles')]
     public function articles(ArticleRepository $repo)
     {
-        // $articles = $repo->findAll();
+        $articles = $repo->findAll();
 
         return $this->render('blog/articles.html.twig', [
             'controller_name' => 'BlogController',
-            // 'articles'=> $articles
+            'articles'=> $articles
         ]);
     }
     
 
-    #[Route('/blog/article/:id', name: 'article')]
-    public function article(ArticleRepository $repo)
+    #[Route('/blog/article/{id}', name: 'article')]
+    public function article($id, ArticleRepository $repo, CommentRepository $repoComment)
     {
-        // $articles = $repo->findAll();
+        $article = $repo->find($id);
+        $comments = $repoComment->findBy(['id_article' => $id]);
 
-        return $this->render('blog/articles.html.twig', [
+        return $this->render('blog/article.html.twig', [
             'controller_name' => 'BlogController',
-            // 'articles'=> $articles
+            'article'=> $article,
+            'comments'=> $comments
         ]);
     }
 
