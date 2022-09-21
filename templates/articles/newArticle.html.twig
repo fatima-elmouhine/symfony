@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Blog - Créer un article {% endblock %}
+
+{% block body %}
+
+toto new article
+{# {{dump(form)}} #}
+    {{ form_start(form) }}
+        {{ form_row(form.title) }}
+        {{ form_row(form.content) }}
+        {{ form_row(form.image) }}
+        <button type="submit" class="btn btn-success">Créer </button>
+    {{ form_end(form) }}
+{% endblock %}

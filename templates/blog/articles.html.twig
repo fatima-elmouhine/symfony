@@ -7,7 +7,12 @@
 <section class="card-group">
     {% for article in articles %}
         <div class="card">
+         {% set url = article.image | split('/0')  %}
+        {% if url[0] == 'https://via.placeholder.com/360x360.png' %}
             <img class="card-img-top" src="{{article.image}}" alt="Card image cap">
+        {% else %}
+            <img class="card-img-top" src="/uploads/{{article.image}}" alt="Card image cap">
+        {% endif %}
             <div class="metadata">Publié le {{ article.createdAt | date('d/m/Y') }} à {{article.createdAt | date('H:i') }} par  {{ article.getIdUser.getLogin}} </div>
             <div class="card-body">
                 <h5 class="card-title">{{article.title}}</h5>

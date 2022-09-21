@@ -2,24 +2,34 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 <article>
-    <h2>{{article.title}}</h2>
-    <div class="metadata">Ecrit le {{article.createdAt |date('d/m/Y')}} à {{article.createdAt | date('H:i')}} par {{ article.createdAt | date('H:i') }} par  {{ article.getIdUser.getLogin}} </div>
     <div class="content">
-        <img src="{{article.image}}" alt="">
-        {{article.content |raw}}
+        <div class="first-column">
+            <h2>{{article.title}}</h2>
+            <img src="{{article.image}}" alt="">
+            <img src="/uploads/{{article.image}}" alt="">
+            <div class="metadata">
+                Ecrit le {{article.createdAt |date('d/m/Y')}} à {{article.createdAt | date('H:i')}} par {{ article.createdAt | date('H:i') }} par  {{ article.getIdUser.getLogin}}
+            </div>
+        </div>
+        <p>{{article.content |raw}}</p>
     </div>
 </article>
+
 
 <section class="">
     <h3>Commentaires</h3>
     {% for comment in comments %}
     <div class="comment">
-        <div class="metadata">Ecrit le {{comment.createdAt |date('d/m/Y')}} à {{comment.createdAt | date('H:i')}} par {{ comment.getIdUser.getLogin}} </div>
+        <div class="metadata"><p>Le {{comment.createdAt |date('d/m/Y')}} <b>par {{ comment.getIdUser.getLogin}} </b></p></div>
         <div class="content">
-            {{comment.content |raw}}
+           <i> {{comment.content |raw}}</i>
         </div>
     </div>
     {% endfor %}
 </section>
+    {{ form_start(form) }}
+        {{ form_row(form.content) }}
+        <button type="submit" class="btn btn-success">Commenter </button> 
+    {{ form_end(form) }}
 
 {% endblock %}

@@ -1,0 +1,29 @@
+.container{
+    max-width: unset;
+    padding: 0;
+}
+article .content{
+    text-transform: uppercase;
+    box-shadow: -15px 4px 17px #c4a5a5;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    color: black;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 30px;
+}
+
+article .content img{
+    width: 70%;
+    border-radius: 10px;
+}
+article .metadata{
+    text-transform: none;
+    padding: 40px;
+
+}
+article p{
+    padding: 20px;
+    margin-top: 30px ;
+    text-transform: none;
+}
