@@ -28,16 +28,16 @@ class BlogController extends AbstractController
     }
 
 
-    #[Route('/blog/articles', name: 'articles')]
-    public function articles(ArticleRepository $repo)
-    {
-        $articles = $repo->findAll();
+    // #[Route('/blog/articles', name: 'articles')]
+    // public function articles(ArticleRepository $repo)
+    // {
+    //     $articles = $repo->findAll();
 
-        return $this->render('blog/articles.html.twig', [
-            'controller_name' => 'BlogController',
-            'articles'=> $articles
-        ]);
-    }
+    //     return $this->render('blog/articles.html.twig', [
+    //         'controller_name' => 'BlogController',
+    //         'articles'=> $articles
+    //     ]);
+    // }
     
 
     #[Route('/blog/article/{id}', name: 'article')]

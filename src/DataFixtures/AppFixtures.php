@@ -35,7 +35,7 @@ class AppFixtures extends Fixture
         $article = new Article();
         $article->setTitle($this->faker->sentence(2));
         $article->setContent($this->faker->text());
-        $article->setImage($this->faker->imageUrl(360, 360, 'animals', true, 'dog'));
+        $article->setImage($this->faker->imageUrl(360, 360, 'animals', true, 'cat'));
         $article->setCreatedAt(\DateTimeImmutable::createFromMutable($this->faker->dateTime()));
         $article->setIdUser($user);
         $manager->persist($article);
