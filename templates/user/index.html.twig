@@ -25,6 +25,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
                             <a href="{{ path('article', {'id': article.id}) }}" class="btn btn-sm btn-outline-secondary">Voir</a>
+                            <a href="{{ path('article.state', {'id': article.id, 'id_user' : app.user.id}) }}" class="btn btn-sm text-light {{article.isIsPublic ? 'bg-warning' : 'bg-success' }}">{{article.isIsPublic ? 'Cacher' : 'Publier' }}</a>
                         </div>
                         <small class="text-muted">{{ article.createdAt|date('d/m/Y') }}</small>
                     </div>

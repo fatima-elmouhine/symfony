@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
- 
+
 
 class ArticleController extends AbstractController
 {
@@ -27,7 +27,7 @@ class ArticleController extends AbstractController
         PaginatorInterface $paginator,
         Request $request
     ): Response {
-        $data = $repo->findAll();
+        $data = $repo->findBy(['is_public' => true]);
         $articles = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),

@@ -34,6 +34,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('blog');
         }
 
+        // dd($userArticles[0]->isIsPublic());
         $userForm = $this->createForm(UserFormType::class, $user);
         $userForm->handleRequest($request);
 
@@ -57,6 +58,20 @@ class UserController extends AbstractController
             'userForm' => $userForm->createView(),
             'articles' => $userArticles
         ]);
+    }
+
+    #[Route('article/show/{id}/{id_user}', name: 'article.state')]
+    public function show(ArticleRepository $articleRepo, $id, $id_user, EntityManagerInterface $entityManager): Response
+    {
+        $article = $articleRepo->find($id);
+        $article->setIsPublic(!$article->isIsPublic());
+        $entityManager->persist($article);
+        $entityManager->flush();
+        // dd($id_user);
+        return $this->redirectToRoute('app_user', ['id' => $id_user]);
+        // return $this->render('article/show.html.twig', [
+        //     'article' => $article,
+        // ]);
     }
 
 }
