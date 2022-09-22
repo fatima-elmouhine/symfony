@@ -83,6 +83,10 @@ class ArticleController extends AbstractController
         $form = $this->createForm(NewArticleFormType::class, $article);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $article->setIsPublic(true);
+            $article->setTitle( $form->get('title')->getData());
+            $article->setContent( $form->get('content')->getData());
             $uploadedFile = $form['image']->getData();
             $destination = $this->getParameter('kernel.project_dir').'/public/uploads';
             $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -102,9 +106,6 @@ class ArticleController extends AbstractController
                 // ... handle exception if something happens during file upload
             }
             $article->setImage($newFilename);
-            $article->setIsPublic(true);
-            $article->setTitle( $form->get('title')->getData());
-            $article->setContent( $form->get('content')->getData());
             $article->setIdUser($this->getUser());
         //     dd($form->get('image')->getData(null));
             $article->setCreatedAt(new \DateTimeImmutable);
