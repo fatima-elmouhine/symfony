@@ -35,6 +35,9 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $created_at = null;
 
+    #[ORM\Column]
+    private ?bool $is_public = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -131,6 +134,18 @@ class Article
     public function setCreatedAt(?\DateTimeImmutable $created_at): self
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function isIsPublic(): ?bool
+    {
+        return $this->is_public;
+    }
+
+    public function setIsPublic(bool $is_public): self
+    {
+        $this->is_public = $is_public;
 
         return $this;
     }

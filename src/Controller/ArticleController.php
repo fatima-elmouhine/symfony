@@ -60,6 +60,8 @@ class ArticleController extends AbstractController
             $comment->setIdUser($this->getUser());
             $entityManager->persist($comment);
             $entityManager->flush();
+            return $this->redirectToRoute('article', ['id' => $id]);
+
         }
 
         return $this->render('blog/article.html.twig', [
@@ -67,7 +69,7 @@ class ArticleController extends AbstractController
             'article'=> $article,
             'comments'=> $comments,
             'form'=>$commentForm->createView(),
-            'css' => 'article.css'
+            'css' => 'asset/article.css'
         ]);
     }
 
@@ -100,6 +102,7 @@ class ArticleController extends AbstractController
                 // ... handle exception if something happens during file upload
             }
             $article->setImage($newFilename);
+            $article->setIsPublic(true);
             $article->setTitle( $form->get('title')->getData());
             $article->setContent( $form->get('content')->getData());
             $article->setIdUser($this->getUser());
@@ -117,7 +120,7 @@ class ArticleController extends AbstractController
 
         return $this->renderForm('articles/newArticle.html.twig', [
             'form' => $form,
-            'css' => 'articles.css'
+            'css' => 'asset/articles.css'
         ]);
     }
 }

@@ -7,6 +7,14 @@
 .card{
     padding: 20px!important;
 }
+.card img{
+    height: 200px;
+    object-fit: cover;
+
+}
+p{
+    height:150px ;
+}
 
 @media screen and (min-width: 578px) and (max-width: 767px) {
     .card-group {

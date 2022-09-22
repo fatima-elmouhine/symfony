@@ -1,0 +1,17 @@
+.account{
+    margin: 5%;
+}
+
+
+.account .mt-4{
+    margin: 5% 10%;
+}
+.ownArticlesSection {
+    margin:0% ;
+    margin-top: 10%!important;
+    margin-bottom: 20%;
+}
+
+.ownArticlesSection .mt-4{
+    margin-bottom: 2em;
+}
