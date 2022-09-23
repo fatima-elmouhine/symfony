@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class ArticleController extends AbstractController
 {
-    #[Route('blog/articles', name: 'articles')]
+    #[Route('/articles', name: 'articles')]
     public function index(
         ArticleRepository $repo,
         PaginatorInterface $paginator,
@@ -34,18 +34,17 @@ class ArticleController extends AbstractController
             4
         );
 
-        return $this->render('blog/articles.html.twig', [
+        return $this->render('articles/articles.html.twig', [
             'articles'=> $articles,
             'controller_name' => 'ArticleController',
             'css' => 'asset/articles.css'
 
         ]);
-        // return $this->render('articles/index.html.twig', [
-        //     'controller_name' => 'ArticleController',
-        // ]);
     }
 
-    #[Route('blog/article/{id}', name: 'article')]
+
+
+    #[Route('/article/{id}', name: 'article')]
     public function article($id, ArticleRepository $repo, CommentRepository $commentRepo, EntityManagerInterface $entityManager, Request $request)
     {
         $article = $repo->find($id);
@@ -64,7 +63,7 @@ class ArticleController extends AbstractController
 
         }
 
-        return $this->render('blog/article.html.twig', [
+        return $this->render('articles/article.html.twig', [
             'controller_name' => 'ArticleController',
             'article'=> $article,
             'comments'=> $comments,
@@ -82,6 +81,7 @@ class ArticleController extends AbstractController
         $article = new Article();
         $form = $this->createForm(NewArticleFormType::class, $article);
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
 
             $article->setIsPublic(true);

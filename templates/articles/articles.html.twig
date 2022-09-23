@@ -18,6 +18,7 @@
                 <h5 class="card-title">{{article.title}}</h5>
                 <p class="card-text text-truncate" >{{article.content |raw}}</p>
                  <a href="{{path('article',{'id': article.id})}}" class="btn btn-primary">Lire la suite</a>
+                 <a href="{{path('article',{'id': article.id})}}" class="btn btn-primary">Lire la suite</a>
             </div>
         </div>
         {% endfor %}

@@ -2,7 +2,13 @@
 
 namespace App\Controller\Admin;
 
+use DateTime;
 use App\Entity\Article;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AvatarField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ArticleCrudController extends AbstractCrudController
@@ -12,14 +18,15 @@ class ArticleCrudController extends AbstractCrudController
         return Article::class;
     }
 
-    /*
+
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id'),
+            ImageField::new('image')->setUploadDir('public/uploads/'),
             TextField::new('title'),
-            TextEditorField::new('description'),
+            DateTimeField::new('created_at'),
         ];
     }
-    */
+
 }

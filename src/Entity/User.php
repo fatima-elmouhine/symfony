@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -31,6 +33,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $login = null;
+
+    #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Like::class, orphanRemoval: true)]
+    private Collection $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -110,6 +120,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLogin(string $login): self
     {
         $this->login = $login;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setIdUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getIdUser() === $this) {
+                $like->setIdUser(null);
+            }
+        }
 
         return $this;
     }

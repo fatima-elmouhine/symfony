@@ -38,9 +38,13 @@ class Article
     #[ORM\Column]
     private ?bool $is_public = null;
 
+    #[ORM\OneToMany(mappedBy: 'id_article', targetEntity: Like::class)]
+    private Collection $likes;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -146,6 +150,36 @@ class Article
     public function setIsPublic(bool $is_public): self
     {
         $this->is_public = $is_public;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Like>
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
+    public function addLike(Like $like): self
+    {
+        if (!$this->likes->contains($like)) {
+            $this->likes->add($like);
+            $like->setIdArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLike(Like $like): self
+    {
+        if ($this->likes->removeElement($like)) {
+            // set the owning side to null (unless already changed)
+            if ($like->getIdArticle() === $this) {
+                $like->setIdArticle(null);
+            }
+        }
 
         return $this;
     }
