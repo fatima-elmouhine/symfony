@@ -21,15 +21,15 @@ class UserCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-        // parent::updateEntity(string $entityFqcn){
 
-        // }
-        
         return [
-            // IdField::new('id'),
+            IdField::new('id')
+                ->onlyOnIndex(),
             EmailField::new('email'),
-            TextField::new('password')->setFormType(PasswordType::class),
-            ArrayField::new('roles'),
+            TextField::new('password', 'Mot de passe')->setFormType(PasswordType::class)
+                ->hideOnIndex(),
+            ArrayField::new('roles')
+            ->setHelp('* Roles disponibles:  ROLE_ADMIN, ROLE_USER <br/> ( L\'utilisateur peut avoir plusieurs roles à la fois )'),
         ];
     }
 }

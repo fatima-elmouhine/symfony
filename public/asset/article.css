@@ -1,10 +1,10 @@
 .container{
     max-width: unset;
-    padding: 0;
+    padding: 30px;
 }
 article .content{
     text-transform: uppercase;
-    box-shadow: -15px 4px 17px #c4a5a5;
+    box-shadow: -9px 4px 16px 1px #9c9c9c63;
     display: grid;
     grid-template-columns: 1fr 1fr;
     color: black;
@@ -26,4 +26,49 @@ article p{
     padding: 20px;
     margin-top: 26% ;
     text-transform: none;
+}
+
+.comment-space{
+    padding: 10px;
+    padding-top: 75px!important ;
+}
+.comment{
+    background: #1cbc9c;
+    width: fit-content;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 6px 5px 3px #00000012;
+    color: white;
+}
+#comment_form_content{
+    margin-left: -40px;
+}
+form[name="comment_form"] .row {
+
+    margin-right: 0;
+     margin-left: 0;
+}
+@media (min-width: 576px){
+    .col-sm-10{
+        max-width : 60% !important;
+
+    }
+
+}
+
+@media (min-width: 320px) and (max-width: 576px) {
+   article .content{
+        grid-template-columns: 1fr;
+    }
+    #comment_form_content{
+        margin-left: unset;
+    }
+    .first-column{
+        text-align: center;
+    }
+    article p{
+        margin-top: 10% ;
+    }
+
 }

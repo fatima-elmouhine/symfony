@@ -16,6 +16,18 @@ p{
     height:150px ;
 }
 
+.link-like{
+    text-decoration: none;
+}
+.link-like:hover{
+    text-decoration: none;
+}
+.fa-regular.fa-thumbs-up,.fa-solid.fa-thumbs-up  {
+    font-size: 2em!important;
+    align-self: center;
+}
+
+
 @media screen and (min-width: 578px) and (max-width: 767px) {
     .card-group {
         display: grid!important;

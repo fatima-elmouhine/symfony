@@ -18,7 +18,36 @@
                 <h5 class="card-title">{{article.title}}</h5>
                 <p class="card-text text-truncate" >{{article.content |raw}}</p>
                  <a href="{{path('article',{'id': article.id})}}" class="btn btn-primary">Lire la suite</a>
-                 <a href="{{path('article',{'id': article.id})}}" class="btn btn-primary">Lire la suite</a>
+
+                    {% set nbrLike = 0 %}
+                    {% set isLiked = 0 %}
+                {% if (app.user) %}
+                    {% for like in likes %}
+                    {% if (like.getIdArticle().id == article.id  and like.isLiked) %}
+                        {% set nbrLike = nbrLike + 1 %}
+
+                            {% if (like.getIdUser().id == app.user.id ) %}
+                                {% set isLiked = like.isLiked %}
+
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                 <a href="{{path('article.isLike',{'id_article': article.id, 'id_user': app.user.id} )}}" class="link-like">
+                    <i class="{{ isLiked ? 'fa-solid' : 'fa-regular' }}  fa-thumbs-up"></i>
+                    <span class="badge bg-light"> {{ nbrLike > 1 ? "#{nbrLike} Likes": "#{nbrLike} Like"}}</span>
+                </a>
+                    {% else %}
+
+                        {% for like in likes %}
+                            {% if (like.getIdArticle().id == article.id  and like.isLiked) %}
+                                {% set nbrLike = nbrLike + 1 %}
+                            {% endif %}
+                        {% endfor %}
+                    <a href="{{path('signup')}}">
+                    <span class="badge bg-light"> {{ nbrLike > 1 ? "#{nbrLike} Likes": "#{nbrLike} Like"}}</span>
+
+                    {% endif %}
+
             </div>
         </div>
         {% endfor %}

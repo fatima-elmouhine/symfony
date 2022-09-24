@@ -2,11 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Like;
 use App\Entity\Article;
 use App\Entity\Comment;
+use App\Form\CommentFormType;
 use Doctrine\ORM\EntityManager;
 use App\Form\NewArticleFormType;
-use App\Form\CommentFormType;
+use App\Repository\LikeRepository;
+use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
@@ -24,28 +28,37 @@ class ArticleController extends AbstractController
     #[Route('/articles', name: 'articles')]
     public function index(
         ArticleRepository $repo,
+        LikeRepository $likeRepo,
         PaginatorInterface $paginator,
         Request $request
     ): Response {
-        $data = $repo->findBy(['is_public' => true]);
-        $articles = $paginator->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            4
-        );
+    $data = $repo->findBy(['is_public' => true]);
+    $articles = $paginator->paginate(
+        $data,
+        $request->query->getInt('page', 1),
+        4
+    );
+
+
+    $likes = $likeRepo->findAll();
+
 
         return $this->render('articles/articles.html.twig', [
             'articles'=> $articles,
+            'likes'=>$likes,
             'controller_name' => 'ArticleController',
             'css' => 'asset/articles.css'
 
         ]);
-    }
-
-
+}
 
     #[Route('/article/{id}', name: 'article')]
-    public function article($id, ArticleRepository $repo, CommentRepository $commentRepo, EntityManagerInterface $entityManager, Request $request)
+    public function article(
+        $id,
+        ArticleRepository $repo,
+        CommentRepository $commentRepo,
+        EntityManagerInterface $entityManager,
+        Request $request)
     {
         $article = $repo->find($id);
         $comments = $commentRepo->findBy(['id_article' => $id]);
@@ -71,7 +84,7 @@ class ArticleController extends AbstractController
             'css' => 'asset/article.css'
         ]);
     }
-
+    #[IsGranted('ROLE_USER')]
     #[Route('/articles/new', name: 'newArticle')]
     public function newArticle(
         EntityManagerInterface $entityManager,
@@ -81,7 +94,6 @@ class ArticleController extends AbstractController
         $article = new Article();
         $form = $this->createForm(NewArticleFormType::class, $article);
         $form->handleRequest($request);
-        
         if ($form->isSubmitted() && $form->isValid()) {
 
             $article->setIsPublic(true);
@@ -107,21 +119,46 @@ class ArticleController extends AbstractController
             }
             $article->setImage($newFilename);
             $article->setIdUser($this->getUser());
-        //     dd($form->get('image')->getData(null));
             $article->setCreatedAt(new \DateTimeImmutable);
 
 
             $entityManager->persist($article);
             $entityManager->flush();
-        // //     // do anything else you need here, like send an email
-
             return $this->redirectToRoute('blog');
         }
-        // // $article = $repo->find($id);
-
         return $this->renderForm('articles/newArticle.html.twig', [
             'form' => $form,
             'css' => 'asset/articles.css'
         ]);
     }
+
+    // #[IsGranted('ROLE_USER')]
+    #[Route('article/like/{id_article}/{id_user}', name: 'article.isLike')]
+    public function likeArticle(
+        LikeRepository $likeRepo,
+        ArticleRepository $articleRepo,
+        UserRepository $userRepo,
+        $id_article,
+        $id_user,
+        EntityManagerInterface $entityManager): Response
+    {
+        $arrayLike = $likeRepo->findBy(array('id_article' => $id_article, 'id_user' => $id_user));
+        $article = $articleRepo->find($id_article);
+        $user = $userRepo->find($id_user);
+        if($arrayLike == []){
+            $like = new Like();
+            $like->setIdArticle($article);
+            $like->setIdUser($user);
+            $like->setIsLiked(true);
+            $entityManager->persist($like);
+        }else{
+            $arrayLike[0]->setIsLiked(!$arrayLike[0]->isIsLiked());
+            $entityManager->persist($arrayLike[0]);
+
+        }
+        $entityManager->flush();
+        return $this->redirectToRoute('articles');
+
+    }
+
 }

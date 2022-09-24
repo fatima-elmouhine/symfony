@@ -10,11 +10,13 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
+    #[IsGranted('ROLE_USER',  message: 'Vous n\'avez pas accès à cette page! Get out!')]
     #[Route('user/{id}', name: 'app_user')]
     public function index(
         Request $request,
@@ -34,7 +36,6 @@ class UserController extends AbstractController
             return $this->redirectToRoute('blog');
         }
 
-        // dd($userArticles[0]->isIsPublic());
         $userForm = $this->createForm(UserFormType::class, $user);
         $userForm->handleRequest($request);
 
@@ -60,6 +61,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[IsGranted('ROLE_USER',  message: 'Vous n\'avez pas accès à cette page! Get out!')]
     #[Route('article/show/{id}/{id_user}', name: 'article.state')]
     public function show(ArticleRepository $articleRepo, $id, $id_user, EntityManagerInterface $entityManager): Response
     {
@@ -67,11 +69,8 @@ class UserController extends AbstractController
         $article->setIsPublic(!$article->isIsPublic());
         $entityManager->persist($article);
         $entityManager->flush();
-        // dd($id_user);
         return $this->redirectToRoute('app_user', ['id' => $id_user]);
-        // return $this->render('article/show.html.twig', [
-        //     'article' => $article,
-        // ]);
+
     }
 
 }
