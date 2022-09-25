@@ -32,7 +32,7 @@ class ArticleController extends AbstractController
         PaginatorInterface $paginator,
         Request $request
     ): Response {
-    $data = $repo->findBy(['is_public' => true]);
+    $data = $repo->findBy(['is_public' => true], ['created_at' => 'DESC']);
     $articles = $paginator->paginate(
         $data,
         $request->query->getInt('page', 1),
@@ -135,7 +135,7 @@ class ArticleController extends AbstractController
 
             $entityManager->persist($article);
             $entityManager->flush();
-            return $this->redirectToRoute('blog');
+            return $this->redirectToRoute('articles');
         }
         return $this->renderForm('articles/newArticle.html.twig', [
             'form' => $form,

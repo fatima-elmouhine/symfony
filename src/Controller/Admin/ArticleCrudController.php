@@ -28,7 +28,7 @@ class ArticleCrudController extends AbstractCrudController
             IdField::new('id')
             ->onlyOnIndex(),
             TextField::new('title', 'Titre'),
-            TextEditorField::new('content', 'Texte'),
+            TextAreaField::new('content', 'Texte'),
             ImageField::new('image')->setBasePath('uploads')->setUploadDir('public/uploads/'),
             BooleanField::new('is_public', 'Publier')
                 ->renderAsSwitch(false),
