@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Accès interdit
+{% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column align-items-center">
+    <img style="width:70%;" src="/images/403.svg">
+    
+    <h2>Erreur 403 - Accès interdit</h2>
+    <p class="text-center">
+        Vous n'avez pas pas les permissions nécessaires pour accéder à cette URL <br/><br/>
+        <a class="btn btn-warning" href="{{ path('signup') }}">Se connecter</a>
+    </p>
+    </div>
+{% endblock %}

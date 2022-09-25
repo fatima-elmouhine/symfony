@@ -62,7 +62,10 @@ class ArticleController extends AbstractController
     {
         $article = $repo->find($id);
         $comments = $commentRepo->findBy(['id_article' => $id]);
-
+        if(!$article){
+            throw $this->createNotFoundException('L\'Article n\'existe pas');
+            // return $this->redirectToRoute('articles');
+        }
         $commentForm = $this->createForm(CommentFormType::class, new Comment());
         $commentForm->handleRequest($request);
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {

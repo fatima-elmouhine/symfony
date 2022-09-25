@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Page non trouvée
+{% endblock %}
+
+{% block body %}
+    <div class="container d-flex flex-column align-items-center">
+    <img style="width:70%;" src="/images/404.svg">
+
+    <h2>
+        La page que vous recherchez n'existe pas.
+    </h2>
+    <p class="text-center">
+        Verifier si l'adresse sur l'URL est correcte ou <br/><br/>
+        <a class="btn btn-warning" href="{{ path('blog') }}">Retourner à la page d'accueil</a>
+    </p>
+    </div>
+{% endblock %}
