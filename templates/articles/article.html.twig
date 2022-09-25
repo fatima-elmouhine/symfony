@@ -18,7 +18,7 @@
 
 <section class="comment-space">
     <h3>Espace commentaires</h3>
-    {% for comment in comments %}
+    {% for comment in commentPagination %}
     <div class="comment">
         <div class="metadata"><p>Le {{comment.createdAt |date('d/m/Y')}} <b>par {{ comment.getIdUser.getLogin}} </b></p></div>
         <div class="content">
@@ -26,8 +26,11 @@
         </div>
     </div>
     {% endfor %}
+    <div>
+    {# {% do commentsPagination.setPageRange(2) %} #}
+        {{ knp_pagination_render(commentPagination, 'base/pagination.html.twig') }}
+    </div>
 </section>
-
 {% if app.user %}
     {{ form_start(form) }}
         {{ form_row(form.content) }}

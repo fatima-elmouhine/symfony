@@ -3,12 +3,14 @@
 {% block title %} Blog - Créer un article {% endblock %}
 
 {% block body %}
+<div class="container d-flex justify-content-center flex-column">
+    <h1 class="m-3">Créer un article</h1>
 
-toto new article
     {{ form_start(form) }}
         {{ form_row(form.title) }}
         {{ form_row(form.content) }}
         {{ form_row(form.image) }}
         <button type="submit" class="btn btn-success">Créer </button>
     {{ form_end(form) }}
+</div>
 {% endblock %}

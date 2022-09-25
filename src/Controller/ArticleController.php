@@ -58,10 +58,17 @@ class ArticleController extends AbstractController
         ArticleRepository $repo,
         CommentRepository $commentRepo,
         EntityManagerInterface $entityManager,
+        PaginatorInterface $paginator,
         Request $request)
     {
         $article = $repo->find($id);
         $comments = $commentRepo->findBy(['id_article' => $id]);
+        $commentPagination = $paginator->paginate(
+            $comments,
+            $request->query->getInt('page', 1),
+            3
+        );
+
         if(!$article){
             throw $this->createNotFoundException('L\'Article n\'existe pas');
             // return $this->redirectToRoute('articles');
@@ -84,7 +91,8 @@ class ArticleController extends AbstractController
             'article'=> $article,
             'comments'=> $comments,
             'form'=>$commentForm->createView(),
-            'css' => 'asset/article.css'
+            'css' => 'asset/article.css',
+            'commentPagination' => $commentPagination
         ]);
     }
     #[IsGranted('ROLE_USER')]

@@ -15,8 +15,18 @@ class NewArticleFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('content')
+            ->add('title', null, [
+                'label' => 'Titre de l\'article',
+                'attr' => [
+                    'placeholder' => 'Titre de l\'article'
+                ]
+            ])
+            ->add('content', null, [
+                'label' => 'Contenu de l\'article',
+                'attr' => [
+                    'placeholder' => 'Contenu de l\'article'
+                ]
+            ])
             // ->add('image')
             ->add('image', FileType::class, [
                 'label' => 'image',

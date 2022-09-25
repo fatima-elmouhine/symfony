@@ -45,6 +45,7 @@
                         {% endfor %}
                     <a href="{{path('signup')}}">
                     <span class="badge bg-light"> {{ nbrLike > 1 ? "#{nbrLike} Likes": "#{nbrLike} Like"}}</span>
+                    </a>
 
                     {% endif %}
 
@@ -55,5 +56,5 @@
 <div>
 {% do articles.setPageRange(2) %}
     {{ knp_pagination_render(articles, 'base/pagination.html.twig') }}
-
+</div>
 {% endblock %}
